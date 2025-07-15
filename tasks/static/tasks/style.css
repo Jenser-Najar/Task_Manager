@@ -1,3 +1,75 @@
+/* ===================== RESPONSIVE DESIGN ===================== */
+@media (max-width: 600px) {
+    body {
+        padding: 0.5rem;
+    }
+
+    .container {
+        max-width: 98vw;
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: none;
+    }
+
+    h1,
+    h2 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    form {
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    input,
+    textarea,
+    select {
+        font-size: 0.95rem;
+        padding: 0.5rem;
+        border-radius: 8px;
+    }
+
+    button,
+    .action-btn,
+    .toggle-btn {
+        font-size: 0.95rem;
+        padding: 0.6rem 1rem;
+        border-radius: 8px;
+    }
+
+    ul {
+        margin-top: 1rem;
+    }
+
+    li {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.7rem;
+        margin-bottom: 0.7rem;
+    }
+
+    .action-btn {
+        margin-top: 6px;
+        margin-right: 6px;
+    }
+
+    #darkModeToggle,
+    .toggle-btn.top-left {
+        top: 10px;
+        left: 10px;
+        font-size: 1rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    #toast {
+        top: 10px;
+        right: 10px;
+        font-size: 1em;
+        padding: 8px 16px;
+    }
+}
+
 /* MODO CLARO ESTÉTICO */
 body {
     font-family: 'Segoe UI', sans-serif;
