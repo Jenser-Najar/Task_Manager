@@ -27,7 +27,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-jbxp#^4w1w*g2+548dr6b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [os.environ.get('RENDER_EXTERNAL_HOSTNAME', 'localhost')]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+if 'RENDER_EXTERNAL_HOSTNAME' in os.environ:
+    ALLOWED_HOSTS.append(os.environ['RENDER_EXTERNAL_HOSTNAME'])
 
 
 # Application definition
