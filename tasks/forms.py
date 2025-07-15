@@ -16,3 +16,6 @@ class TaskForm(forms.ModelForm):
                 'class': 'task-input'
             }),
         }
+        
+        
+# This form is used to create and update tasks in the task manager application.
