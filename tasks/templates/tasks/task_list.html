@@ -21,7 +21,8 @@
 
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form.title }}
+            {{ form.description }}
             <button type="submit">➕ Add Task</button>
         </form>
 

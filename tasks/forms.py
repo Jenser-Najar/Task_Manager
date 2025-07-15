@@ -6,6 +6,13 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields = ['title', 'description']
         widgets = {
-            'title': forms.TextInput(attrs={'placeholder': 'Título de la tarea'}),
-            'description': forms.Textarea(attrs={'placeholder': 'Descripción (opcional)', 'rows': 3}),
+            'title': forms.TextInput(attrs={
+                'placeholder': 'Título de la tarea',
+                'class': 'task-input'
+            }),
+            'description': forms.Textarea(attrs={
+                'placeholder': 'Descripción (opcional)',
+                'rows': 3,
+                'class': 'task-input'
+            }),
         }
