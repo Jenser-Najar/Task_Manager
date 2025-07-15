@@ -16,3 +16,4 @@ sqlparse==0.5.3
 tzdata==2023.4
 virtualenv==20.25.0
 whitenoise==6.6.0
+gunicorn==21.2.0
