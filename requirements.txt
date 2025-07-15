@@ -5,8 +5,6 @@ distlib==0.3.8
 Django==5.1.6
 env==0.1.0
 filelock==3.13.1
-numpy==1.26.3
-pandas==2.1.4
 pipenv==2023.11.15
 platformdirs==4.1.0
 pycodestyle==2.11.1
