@@ -1,6 +1,12 @@
 from django.contrib import admin
-
-# Register your models here.
 from .models import Task
 
-admin.site.register(Task)
+# Register the Task model in the Django admin interface
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    """
+    Admin configuration for the Task model.
+    """
+    list_display = ("title", "completed", "created_at")
+    search_fields = ("title", "description")
+    list_filter = ("completed", "created_at")

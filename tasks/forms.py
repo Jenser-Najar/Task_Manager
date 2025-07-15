@@ -1,21 +1,26 @@
 from django import forms
 from .models import Task
 
+
 class TaskForm(forms.ModelForm):
+    """
+    Form for creating and updating Task instances.
+    Uses custom widgets for better UI/UX.
+    """
     class Meta:
         model = Task
         fields = ['title', 'description']
         widgets = {
             'title': forms.TextInput(attrs={
-                'placeholder': 'Título de la tarea',
-                'class': 'task-input'
+                'placeholder': 'Task title',
+                'class': 'task-input',
+                'maxlength': 255,
+                'autocomplete': 'off',
             }),
             'description': forms.Textarea(attrs={
-                'placeholder': 'Descripción (opcional)',
+                'placeholder': 'Description (optional)',
                 'rows': 3,
-                'class': 'task-input'
+                'class': 'task-input',
+                'autocomplete': 'off',
             }),
         }
-        
-        
-# This form is used to create and update tasks in the task manager application.
