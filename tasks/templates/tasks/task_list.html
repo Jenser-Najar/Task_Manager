@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>📝 Task Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+</head>
+
+<body>
+    <!-- 🌗 Botón modo oscuro (posición fija arriba a la izquierda) -->
+    <button id="darkModeToggle" onclick="toggleDarkMode()">🌗</button>
+
+    <div id="toast"
+        style="display:none;position:fixed;top:30px;right:30px;z-index:9999;padding:12px 24px;background:#333;color:#fff;border-radius:6px;box-shadow:0 2px 8px #0002;font-size:1.1em;transition:opacity 0.3s;opacity:0;">
+    </div>
+    <div class="container">
+        <h1>🧠 Your Task Manager</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">➕ Add Task</button>
+        </form>
+
+        <h2>📋 Tasks</h2>
+        <ul>
+            {% for task in tasks %}
+            <li class="{% if task.completed %}completed{% endif %}">
+                <strong>{{ task.title }}</strong> - {{ task.description }}
+                {% if task.completed %}✅{% else %}❌{% endif %}
+
+                <div style="margin-top: 10px;">
+                    <button class="action-btn complete-btn" data-task-id="{{ task.id }}"
+                        onclick="toggleTaskCompletion(event, {{ task.id }})">
+                        {% if task.completed %}
+                        🔄 Marcar como pendiente
+                        {% else %}
+                        ✅ Marcar como completada
+                        {% endif %}
+                    </button>
+
+                    <button class="action-btn delete-btn" data-task-id="{{ task.id }}"
+                        onclick="deleteTaskAjax(event, {{ task.id }})">🗑️ Eliminar</button>
+                </div>
+            </li>
+            {% empty %}
+            <li>No hay tareas aún</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <script src="{% static 'tasks/app.js' %}"></script>
+</body>
+
+</html>
