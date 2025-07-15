@@ -40,7 +40,50 @@ function showToast(message, duration = 2000) {
 
 // ========== Task Actions (Event Delegation) ========== //
 document.addEventListener('DOMContentLoaded', () => {
-    // Complete/Toggle Task
+    // Ocultar 'No tasks yet.' si se agrega una tarea por AJAX
+    // AJAX Add Task
+    const addTaskForm = document.querySelector('form');
+    const taskList = document.querySelector('ul');
+    if (addTaskForm && taskList) {
+        addTaskForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(addTaskForm);
+            fetch(addTaskForm.action, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCSRFToken(),
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'ok' && data.task_html) {
+                        // Remove 'No tasks yet.' if present
+                        const emptyMsg = taskList.querySelector('li');
+                        if (emptyMsg && emptyMsg.textContent.trim() === 'No tasks yet.') {
+                            emptyMsg.remove();
+                        }
+                        // Insert new task at the top
+                        const temp = document.createElement('div');
+                        temp.innerHTML = data.task_html;
+                        const newTask = temp.firstElementChild;
+                        if (newTask) {
+                            taskList.insertBefore(newTask, taskList.firstChild);
+                        }
+                        addTaskForm.reset();
+                        showToast('Task added!');
+                    } else if (data.status === 'error' && data.errors) {
+                        showToast(data.errors, 3000);
+                    } else {
+                        showToast('Error adding task.');
+                    }
+                })
+                .catch(() => showToast('Error adding task.'));
+        });
+    }
+
+    // Complete/Toggle Task & Delete Task (Event Delegation)
     document.body.addEventListener('click', function (e) {
         if (e.target.classList.contains('complete-btn')) {
             e.preventDefault();

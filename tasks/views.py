@@ -13,28 +13,19 @@ def task_list(request):
     tasks = Task.objects.all().order_by('-created_at')
     form = TaskForm()
 
+
     if request.method == 'POST':
-        # Handle AJAX request
-        if request.headers.get('Content-Type') == 'application/json':
-            try:
-                data = json.loads(request.body)
-                form = TaskForm(data)
-                if form.is_valid():
-                    task = form.save()
-                    return JsonResponse({
-                        'status': 'ok',
-                        'task': {
-                            'id': task.id,
-                            'title': task.title,
-                            'description': task.description,
-                            'completed': task.completed,
-                        }
-                    })
-                else:
-                    return JsonResponse({'status': 'error', 'errors': form.errors}, status=400)
-            except Exception as e:
-                return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
-        # Handle regular form POST
+        # AJAX: fetch() sends as multipart/form-data, not JSON
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            form = TaskForm(request.POST)
+            if form.is_valid():
+                task = form.save()
+                from django.template.loader import render_to_string
+                task_html = render_to_string('tasks/_task_item.html', {'task': task})
+                return JsonResponse({'status': 'ok', 'task_html': task_html})
+            else:
+                errors = '\n'.join([f"{k}: {v[0]}" for k, v in form.errors.items()])
+                return JsonResponse({'status': 'error', 'errors': errors}, status=400)
         else:
             form = TaskForm(request.POST)
             if form.is_valid():

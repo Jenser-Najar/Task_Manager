@@ -1,0 +1,11 @@
+<li class="{% if task.completed %}completed{% endif %}">
+    <strong>{{ task.title }}</strong>
+    {% if task.description %}<span>- {{ task.description }}</span>{% endif %}
+    <span class="status">{% if task.completed %}✅ Completed{% else %}❌ Pending{% endif %}</span>
+    <div class="actions">
+        <button class="action-btn complete-btn" data-task-id="{{ task.id }}">
+            {% if task.completed %}Mark as Pending{% else %}Mark as Completed{% endif %}
+        </button>
+        <button class="action-btn delete-btn" data-task-id="{{ task.id }}">Delete</button>
+    </div>
+</li>
