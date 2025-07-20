@@ -4,11 +4,10 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from .models import Task
 from .forms import TaskForm
-import json
 
 def task_list(request):
     """
-    Display the list of tasks and handle task creation (AJAX or regular POST).
+    Display the list of tasks and handle task creation
     """
     tasks = Task.objects.all().order_by('-created_at')
     form = TaskForm()
@@ -34,9 +33,9 @@ def task_list(request):
 
     return render(request, 'tasks/task_list.html', {'tasks': tasks, 'form': form})
 
-def complete_task(request, task_id):
+def complete_task(task_id):
     """
-    Toggle the completion status of a task (regular POST only).
+    Mark a task as completed or not completed
     """
     task = get_object_or_404(Task, id=task_id)
     task.completed = not task.completed
@@ -46,7 +45,7 @@ def complete_task(request, task_id):
 @csrf_exempt
 def delete_task(request, task_id):
     """
-    Delete a task. Accepts POST (AJAX) or GET (fallback).
+    Delete a task
     """
     task = get_object_or_404(Task, id=task_id)
     if request.method == 'POST':
@@ -59,7 +58,7 @@ def delete_task(request, task_id):
 @csrf_exempt
 def toggle_task_completion(request, task_id):
     """
-    Toggle the completion status of a task via AJAX POST.
+    This function allows changing the completion status of a task
     """
     if request.method == 'POST':
         try:

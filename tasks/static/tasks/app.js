@@ -3,6 +3,7 @@
 const darkModeToggle = document.getElementById('darkModeToggle');
 const body = document.body;
 
+// Change dark mode and light mode
 function setDarkMode(enabled) {
     if (enabled) {
         body.classList.add('dark-mode');
@@ -12,20 +13,20 @@ function setDarkMode(enabled) {
         localStorage.setItem('darkMode', 'false');
     }
 }
-
+// Toggle dark mode on button click
 function toggleDarkMode() {
     setDarkMode(!body.classList.contains('dark-mode'));
 }
 
+// Load dark mode preference
 if (darkModeToggle) {
     darkModeToggle.addEventListener('click', toggleDarkMode);
-    // Load dark mode preference
     if (localStorage.getItem('darkMode') === 'true') {
         setDarkMode(true);
     }
 }
 
-// ========== Toast Notification ========== //
+// Show a notification toast
 function showToast(message, duration = 2000) {
     const toast = document.getElementById('toast');
     if (!toast) return;
@@ -38,10 +39,8 @@ function showToast(message, duration = 2000) {
     }, duration);
 }
 
-// ========== Task Actions (Event Delegation) ========== //
+// allow changing the completion status of a task
 document.addEventListener('DOMContentLoaded', () => {
-    // Ocultar 'No tasks yet.' si se agrega una tarea por AJAX
-    // AJAX Add Task
     const addTaskForm = document.querySelector('form');
     const taskList = document.querySelector('ul');
     if (addTaskForm && taskList) {
@@ -59,12 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(res => res.json())
                 .then(data => {
                     if (data.status === 'ok' && data.task_html) {
-                        // Remove 'No tasks yet.' if present
+                        // Remove 'No tasks yet.'
                         const emptyMsg = taskList.querySelector('li');
                         if (emptyMsg && emptyMsg.textContent.trim() === 'No tasks yet.') {
                             emptyMsg.remove();
                         }
-                        // Insert new task at the top
+                        // Insert new task
                         const temp = document.createElement('div');
                         temp.innerHTML = data.task_html;
                         const newTask = temp.firstElementChild;
@@ -83,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Complete/Toggle Task & Delete Task (Event Delegation)
+    // allow reacting to task completion and deletion
     document.body.addEventListener('click', function (e) {
         if (e.target.classList.contains('complete-btn')) {
             e.preventDefault();
@@ -123,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ========== CSRF Token Helper ========== //
+// CSRF Token Helper
 function getCSRFToken() {
     const name = 'csrftoken';
     const cookies = document.cookie.split(';');

@@ -3,10 +3,6 @@ from .models import Task
 
 
 class TaskForm(forms.ModelForm):
-    """
-    Form for creating and updating Task instances.
-    Uses custom widgets for better UI/UX.
-    """
     class Meta:
         model = Task
         fields = ['title', 'description']
@@ -19,7 +15,7 @@ class TaskForm(forms.ModelForm):
             }),
             'description': forms.Textarea(attrs={
                 'placeholder': 'Description (optional)',
-                'rows': 3,
+                'rows': 5,
                 'class': 'task-input',
                 'autocomplete': 'off',
             }),
